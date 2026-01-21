@@ -247,7 +247,7 @@ const App = () => {
                 </div>
               ) : (
                 <>
-                  <div style={{ flex: 1, overflowY: 'auto', marginBottom: '20px' }}>
+                  <div className="cart-items-list">
                     {cart.map(item => (
                       <div key={item.id} style={{ display: 'flex', gap: '15px', marginBottom: '20px', background: 'rgba(255,255,255,0.03)', padding: '10px', borderRadius: '15px' }}>
                         <div style={{ width: '60px', height: '60px', borderRadius: '10px', overflow: 'hidden' }}>
@@ -300,10 +300,10 @@ const App = () => {
                     </div>
                     <button
                       className="btn-order"
-                      style={{ width: '100%', opacity: (!customerInfo.name || !customerInfo.address) ? 0.5 : 1 }}
+                      style={{ width: '100%', opacity: (!customerInfo.name || !customerInfo.address) ? 0.5 : 1, marginTop: '10px' }}
                       onClick={finalizeOrder}
                     >
-                      Finalizar por WhatsApp
+                      Enviar Pedido por WhatsApp
                     </button>
                   </div>
                 </>
@@ -319,7 +319,7 @@ const App = () => {
 
       {/* FLOATING CART BUTTON */}
       <AnimatePresence>
-        {cart.length > 0 && (
+        {(cart.length > 0 && !showCart && !selectedProduct) && (
           <motion.div
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
