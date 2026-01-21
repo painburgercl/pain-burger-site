@@ -63,23 +63,26 @@
         {
             "id": "lata-variedades",
             "name": "LATA VARIEDADES",
-            "price": 1400
+            "price": 1400,
+            "description": "Refrescantes latas de 350ml bien heladas. Coca-Cola, Sprite, Fanta y más."
         },
         {
             "id": "red-bull",
             "name": "RED BULL",
-            "price": 2000
+            "price": 2000,
+            "description": "Bebida energética para recargar fuerzas. Servida muy fría."
         },
         {
             "id": "aguas-saborizadas",
             "name": "AGUAS SABORIZADAS",
-            "price": 1300
+            "price": 1300,
+            "description": "Aguas purificadas con un toque de sabor natural. Muy refrescantes y heladas."
         },
         {
             "id": "maltedas",
             "name": "MALTEDAS",
             "price": 3500,
-            "detail": "Oreo, Manjar, Chocolate, Frutilla"
+            "description": "Cremosidad absoluta. Variedades: Oreo, Manjar, Chocolate, Frutilla."
         }
     ],
     "agregados": [
