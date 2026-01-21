@@ -1,0 +1,124 @@
+{
+    "burgers": [
+        {
+            "id": "paingood",
+            "name": "PAINGOOD",
+            "price": 6900,
+            "description": "Pan brioche, queso cheddar, salsa de la casa, pepinillos dill, tomate, lechuga, palta.",
+            "image": "/images/paingood.png"
+        },
+        {
+            "id": "inside",
+            "name": "INSIDE",
+            "price": 6900,
+            "description": "Pan brioche, queso cheddar, salsa de pimenton asado, salsa bbq, tocino.",
+            "image": "/images/inside.png"
+        },
+        {
+            "id": "goodnes",
+            "name": "GOODNES",
+            "price": 6900,
+            "description": "Pan brioche, queso cheddar, salsa de la casa, salsa bbq, aros de cebolla, cebolla caramelizada.",
+            "image": "/images/goodnes.png"
+        },
+        {
+            "id": "picantosa",
+            "name": "PICANTOSA",
+            "price": 6900,
+            "description": "Pan brioche, queso cheddar, pepinillos dill, cebolla frita, salsa no-pain no-gain.",
+            "image": "/images/picantosa.png"
+        },
+        {
+            "id": "fullines",
+            "name": "FULLINES",
+            "price": 6900,
+            "description": "Pan brioche, queso cheddar, salsa de la casa, salsa bbq, champiñones, cebolla caramelizada.",
+            "image": "/images/fullines.png"
+        },
+        {
+            "id": "fina-fina",
+            "name": "FINA-FINA",
+            "price": 6900,
+            "description": "Pan brioche, queso cheddar, tomate, lechuga, cebolla morada, salsa fina-fina.",
+            "image": "/images/fina-fina.png"
+        }
+    ],
+    "papas": [
+        {
+            "id": "tocino-cheddar",
+            "name": "TOCINO CHEDDAR",
+            "price": 9900,
+            "description": "Cama de papas fritas, queso cheddar, tocino, cebolla caramelizada.",
+            "image": "/images/papas_tocino_cheddar.png"
+        },
+        {
+            "id": "mechada-cheddar",
+            "name": "MECHADA CHEDDAR",
+            "price": 9900,
+            "description": "Cama de papas fritas, queso cheddar, mechada, cebolla caramelizada.",
+            "image": "/images/papas_mechada_cheddar.png"
+        }
+    ],
+    "bebestibles": [
+        {
+            "id": "lata-variedades",
+            "name": "LATA VARIEDADES",
+            "price": 1400
+        },
+        {
+            "id": "red-bull",
+            "name": "RED BULL",
+            "price": 2000
+        },
+        {
+            "id": "aguas-saborizadas",
+            "name": "AGUAS SABORIZADAS",
+            "price": 1300
+        },
+        {
+            "id": "maltedas",
+            "name": "MALTEDAS",
+            "price": 3500,
+            "detail": "Oreo, Manjar, Chocolate, Frutilla"
+        }
+    ],
+    "agregados": [
+        {
+            "id": "papas-fritas",
+            "name": "PAPAS FRITAS",
+            "price": 1500
+        },
+        {
+            "id": "palta",
+            "name": "PALTA",
+            "price": 790
+        },
+        {
+            "id": "tocino",
+            "name": "TOCINO",
+            "price": 890
+        },
+        {
+            "id": "aros-cebolla",
+            "name": "AROS DE CEBOLLA",
+            "price": 990
+        }
+    ],
+    "salsas": [
+        {
+            "id": "casa",
+            "name": "SALSA DE LA CASA",
+            "description": "Base de mayonesa casera, pepinillos en cubitos, pimenton dulce, bbq."
+        },
+        {
+            "id": "no-pain",
+            "name": "SALSA NO-PAIN NO-GAIN",
+            "description": "Base de mayonesa casera, aji ahumado, tocino en cubitos, pimenton tostado."
+        },
+        {
+            "id": "fina-fina",
+            "name": "SALSA FINA-FINA",
+            "description": "Base yogurth griego, ciboulette, toque de mostaza, sason de pimienta y ajo."
+        }
+    ]
+}
