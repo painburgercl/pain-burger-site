@@ -97,7 +97,7 @@ const App = () => {
                 <div className="product-info">
                   <div className="product-name">{item.name}</div>
                   <div className="product-desc">{item.description || item.detail}</div>
-                  <div className="product-price">{item.price ? `$${item.price.toLocaleString()}` : 'Acompañamiento'}</div>
+                  <div className="product-price">{item.price ? `$${item.price.toLocaleString()}` : 'Ver detalles'}</div>
                 </div>
               </div>
             ))}
@@ -129,7 +129,7 @@ const App = () => {
                 </p>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div style={{ fontSize: '28px', fontWeight: 800 }}>
-                    {selectedProduct.price ? `$${selectedProduct.price.toLocaleString()}` : "Añadido"}
+                    {selectedProduct.price ? `$${selectedProduct.price.toLocaleString()}` : "Gratis"}
                   </div>
                   <button className="btn-order" style={{ width: 'auto', padding: '12px 25px' }} onClick={order}>Pedir</button>
                 </div>

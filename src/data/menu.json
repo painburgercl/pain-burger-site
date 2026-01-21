@@ -108,16 +108,19 @@
         {
             "id": "casa",
             "name": "SALSA DE LA CASA",
+            "price": 890,
             "description": "Base de mayonesa casera, pepinillos en cubitos, pimenton dulce, bbq."
         },
         {
             "id": "no-pain",
             "name": "SALSA NO-PAIN NO-GAIN",
+            "price": 890,
             "description": "Base de mayonesa casera, aji ahumado, tocino en cubitos, pimenton tostado."
         },
         {
             "id": "fina-fina",
             "name": "SALSA FINA-FINA",
+            "price": 890,
             "description": "Base yogurth griego, ciboulette, toque de mostaza, sason de pimienta y ajo."
         }
     ]
