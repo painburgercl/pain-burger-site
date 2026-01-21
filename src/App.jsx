@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Flame, Droplet, UtensilsCrossed, Info, Instagram, MessageCircle } from 'lucide-react';
+import { X, Flame, Droplet, UtensilsCrossed, Info, Instagram, MessageCircle, ShoppingBag, Plus, Minus, Trash2 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import menuData from './data/menu.json';
 
@@ -15,6 +15,8 @@ const App = () => {
   const [activeCategory, setActiveCategory] = useState('burgers');
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [cart, setCart] = useState([]);
+  const [showCart, setShowCart] = useState(false);
 
   useEffect(() => {
     const check = () => {
@@ -26,8 +28,42 @@ const App = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const order = () => {
-    window.open("https://api.whatsapp.com/send/?phone=56987536144&text=Hola+PainBurger+quiero+hacer+un+pedido", "_blank");
+  const addToCart = (product) => {
+    setCart(prev => {
+      const existing = prev.find(p => p.id === product.id);
+      if (existing) {
+        return prev.map(p => p.id === product.id ? { ...p, quantity: p.quantity + 1 } : p);
+      }
+      return [...prev, { ...product, quantity: 1 }];
+    });
+    setSelectedProduct(null);
+  };
+
+  const updateQuantity = (id, delta) => {
+    setCart(prev => prev.map(p => {
+      if (p.id === id) {
+        const newQty = Math.max(1, p.quantity + delta);
+        return { ...p, quantity: newQty };
+      }
+      return p;
+    }));
+  };
+
+  const removeFromCart = (id) => {
+    setCart(prev => prev.filter(p => p.id !== id));
+  };
+
+  const total = cart.reduce((sum, item) => sum + (item.price || 0) * item.quantity, 0);
+
+  const finalizeOrder = () => {
+    const message = `🔥 *NUEVO PEDIDO - PAIN BURGER* 🔥\n\n` +
+      cart.map(p => `• ${p.quantity}x ${p.name} ($${((p.price || 0) * p.quantity).toLocaleString()})`).join('\n') +
+      `\n\n💰 *TOTAL: $${total.toLocaleString()}*\n\n` +
+      `📍 Dirección: \n` +
+      `💵 Método de pago: \n` +
+      `📞 Contacto: `;
+
+    window.open(`https://api.whatsapp.com/send/?phone=56987536144&text=${encodeURIComponent(message)}`, "_blank");
   };
 
   return (
@@ -45,18 +81,31 @@ const App = () => {
           </div>
           <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
             <button
-              onClick={order}
-              style={{ background: 'none', border: 'none', color: '#25D366', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
-              title="Pedir por WhatsApp"
+              onClick={() => setShowCart(true)}
+              style={{ background: 'none', border: 'none', color: 'white', cursor: 'pointer', display: 'flex', alignItems: 'center', position: 'relative' }}
+              title="Ver Carrito"
             >
-              <svg
-                viewBox="0 0 24 24"
-                width="22"
-                height="22"
-                fill="currentColor"
-              >
-                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.438 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
-              </svg>
+              <ShoppingBag size={22} />
+              {cart.length > 0 && (
+                <span style={{
+                  position: 'absolute',
+                  top: '-8px',
+                  right: '-8px',
+                  background: '#dc2626',
+                  color: 'white',
+                  fontSize: '10px',
+                  fontWeight: 'bold',
+                  width: '18px',
+                  height: '18px',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  border: '2px solid black'
+                }}>
+                  {cart.reduce((s, i) => s + i.quantity, 0)}
+                </span>
+              )}
             </button>
             <a href="https://instagram.com/painburger.cl" target="_blank" style={{ color: '#E1306C', display: 'flex', alignItems: 'center' }}>
               <Instagram size={22} />
@@ -131,9 +180,64 @@ const App = () => {
                   <div style={{ fontSize: '28px', fontWeight: 800 }}>
                     {selectedProduct.price ? `$${selectedProduct.price.toLocaleString()}` : "Gratis"}
                   </div>
-                  <button className="btn-order" style={{ width: 'auto', padding: '12px 25px' }} onClick={order}>Pedir</button>
+                  <button className="btn-order" style={{ width: 'auto', padding: '12px 25px' }} onClick={() => addToCart(selectedProduct)}>Agregar al carrito</button>
                 </div>
               </div>
+            </motion.div>
+          </div>
+        )}
+
+        {showCart && (
+          <div className="modal-overlay" onClick={() => setShowCart(false)}>
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              className="cart-drawer"
+              onClick={e => e.stopPropagation()}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '30px' }}>
+                <h2 className="font-outfit" style={{ fontSize: '24px' }}>Tu Pedido</h2>
+                <button className="close-btn" style={{ position: 'relative', top: 0, right: 0 }} onClick={() => setShowCart(false)}><X /></button>
+              </div>
+
+              {cart.length === 0 ? (
+                <div style={{ textAlign: 'center', padding: '50px 0', opacity: 0.5 }}>
+                  <ShoppingBag size={48} style={{ marginBottom: '20px' }} />
+                  <p>Tu carrito está vacío</p>
+                </div>
+              ) : (
+                <>
+                  <div style={{ flex: 1, overflowY: 'auto', marginBottom: '20px' }}>
+                    {cart.map(item => (
+                      <div key={item.id} style={{ display: 'flex', gap: '15px', marginBottom: '20px', background: 'rgba(255,255,255,0.03)', padding: '10px', borderRadius: '15px' }}>
+                        <div style={{ width: '60px', height: '60px', borderRadius: '10px', overflow: 'hidden' }}>
+                          <img src={item.image ? `.${item.image}` : './logo.jpg'} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                        </div>
+                        <div style={{ flex: 1 }}>
+                          <div style={{ fontWeight: 'bold', fontSize: '14px' }}>{item.name}</div>
+                          <div style={{ color: '#dc2626', fontWeight: 'bold', fontSize: '13px' }}>${((item.price || 0) * item.quantity).toLocaleString()}</div>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '10px' }}>
+                            <button className="qty-btn" onClick={() => updateQuantity(item.id, -1)}><Minus size={14} /></button>
+                            <span style={{ fontSize: '14px', fontWeight: 'bold' }}>{item.quantity}</span>
+                            <button className="qty-btn" onClick={() => updateQuantity(item.id, 1)}><Plus size={14} /></button>
+                            <button className="qty-btn" style={{ marginLeft: 'auto', color: '#f87171' }} onClick={() => removeFromCart(item.id)}><Trash2 size={14} /></button>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '20px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px', fontSize: '18px', fontWeight: 'bold' }}>
+                      <span>Total</span>
+                      <span>${total.toLocaleString()}</span>
+                    </div>
+                    <button className="btn-order" style={{ width: '100%' }} onClick={finalizeOrder}>Finalizar por WhatsApp</button>
+                    <p style={{ fontSize: '11px', textAlign: 'center', marginTop: '15px', opacity: 0.5 }}>
+                      Serás redirigido a WhatsApp para coordinar el pago (Transferencia o Efectivo) y la entrega.
+                    </p>
+                  </div>
+                </>
+              )}
             </motion.div>
           </div>
         )}

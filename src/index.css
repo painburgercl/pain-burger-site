@@ -307,4 +307,46 @@ header {
   font-size: 16px;
   margin-top: 20px;
   cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-order:active {
+  opacity: 0.8;
+}
+
+/* CART DRAWER */
+.cart-drawer {
+  background: #0a0a0a;
+  width: 100%;
+  max-width: 450px;
+  height: 100%;
+  margin-left: auto;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.qty-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.qty-btn:active {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 768px) {
+  .cart-drawer {
+    max-width: 100%;
+    padding: 20px;
+  }
 }
