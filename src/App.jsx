@@ -14,9 +14,15 @@ const categories = [
 const App = () => {
   const [activeCategory, setActiveCategory] = useState('burgers');
   const [selectedProduct, setSelectedProduct] = useState(null);
+  const [selectedOption, setSelectedOption] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [cart, setCart] = useState([]);
   const [showCart, setShowCart] = useState(false);
+  const [customerInfo, setCustomerInfo] = useState({
+    name: '',
+    address: '',
+    payment: 'Transferencia'
+  });
 
   useEffect(() => {
     const check = () => {
@@ -29,14 +35,22 @@ const App = () => {
   }, []);
 
   const addToCart = (product) => {
+    const itemToAdd = {
+      ...product,
+      id: product.options ? `${product.id}-${selectedOption}` : product.id,
+      displayName: product.options ? `${product.name} (${selectedOption})` : product.name,
+      quantity: 1
+    };
+
     setCart(prev => {
-      const existing = prev.find(p => p.id === product.id);
+      const existing = prev.find(p => p.id === itemToAdd.id);
       if (existing) {
-        return prev.map(p => p.id === product.id ? { ...p, quantity: p.quantity + 1 } : p);
+        return prev.map(p => p.id === itemToAdd.id ? { ...p, quantity: p.quantity + 1 } : p);
       }
-      return [...prev, { ...product, quantity: 1 }];
+      return [...prev, itemToAdd];
     });
     setSelectedProduct(null);
+    setSelectedOption('');
   };
 
   const updateQuantity = (id, delta) => {
@@ -56,12 +70,18 @@ const App = () => {
   const total = cart.reduce((sum, item) => sum + (item.price || 0) * item.quantity, 0);
 
   const finalizeOrder = () => {
+    if (!customerInfo.name || !customerInfo.address) {
+      alert("Por favor completa tu nombre y dirección");
+      return;
+    }
+
     const message = `🔥 *NUEVO PEDIDO - PAIN BURGER* 🔥\n\n` +
-      cart.map(p => `• ${p.quantity}x ${p.name} ($${((p.price || 0) * p.quantity).toLocaleString()})`).join('\n') +
-      `\n\n💰 *TOTAL: $${total.toLocaleString()}*\n\n` +
-      `📍 Dirección: \n` +
-      `💵 Método de pago: \n` +
-      `📞 Contacto: `;
+      `👤 *Cliente:* ${customerInfo.name}\n` +
+      `📍 *Dirección:* ${customerInfo.address}\n` +
+      `💵 *Pago:* ${customerInfo.payment}\n\n` +
+      `📝 *Detalle:* \n` +
+      cart.map(p => `• ${p.quantity}x ${p.displayName || p.name} ($${((p.price || 0) * p.quantity).toLocaleString()})`).join('\n') +
+      `\n\n💰 *TOTAL: $${total.toLocaleString()}*`;
 
     window.open(`https://api.whatsapp.com/send/?phone=56987536144&text=${encodeURIComponent(message)}`, "_blank");
   };
@@ -81,31 +101,13 @@ const App = () => {
           </div>
           <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
             <button
-              onClick={() => setShowCart(true)}
-              style={{ background: 'none', border: 'none', color: 'white', cursor: 'pointer', display: 'flex', alignItems: 'center', position: 'relative' }}
-              title="Ver Carrito"
+              onClick={() => window.open(`https://api.whatsapp.com/send/?phone=56987536144&text=${encodeURIComponent("Hola PainBurger, quiero hacer un pedido")}`, "_blank")}
+              style={{ background: 'none', border: 'none', color: '#25D366', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+              title="Pedir por WhatsApp"
             >
-              <ShoppingBag size={22} />
-              {cart.length > 0 && (
-                <span style={{
-                  position: 'absolute',
-                  top: '-8px',
-                  right: '-8px',
-                  background: '#dc2626',
-                  color: 'white',
-                  fontSize: '10px',
-                  fontWeight: 'bold',
-                  width: '18px',
-                  height: '18px',
-                  borderRadius: '50%',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  border: '2px solid black'
-                }}>
-                  {cart.reduce((s, i) => s + i.quantity, 0)}
-                </span>
-              )}
+              <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.438 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
+              </svg>
             </button>
             <a href="https://instagram.com/painburger.cl" target="_blank" style={{ color: '#E1306C', display: 'flex', alignItems: 'center' }}>
               <Instagram size={22} />
@@ -176,11 +178,43 @@ const App = () => {
                 <p style={{ fontSize: '18px', color: '#888', lineHeight: '1.6', marginBottom: '30px' }}>
                   {selectedProduct.description || "Calidad premium garantizada. Preparado con ingredientes frescos del día."}
                 </p>
+                {selectedProduct.options && (
+                  <div style={{ marginBottom: '25px' }}>
+                    <p style={{ fontSize: '14px', fontWeight: 'bold', marginBottom: '10px' }}>Selecciona una variedad:</p>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                      {selectedProduct.options.map(opt => (
+                        <button
+                          key={opt}
+                          onClick={() => setSelectedOption(opt)}
+                          style={{
+                            padding: '8px 15px',
+                            borderRadius: '10px',
+                            border: `1px solid ${selectedOption === opt ? '#dc2626' : 'rgba(255,255,255,0.1)'}`,
+                            background: selectedOption === opt ? '#dc2626' : 'rgba(255,255,255,0.05)',
+                            color: 'white',
+                            cursor: 'pointer',
+                            fontSize: '13px'
+                          }}
+                        >
+                          {opt}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                   <div style={{ fontSize: '28px', fontWeight: 800 }}>
                     {selectedProduct.price ? `$${selectedProduct.price.toLocaleString()}` : "Gratis"}
                   </div>
-                  <button className="btn-order" style={{ width: 'auto', padding: '12px 25px' }} onClick={() => addToCart(selectedProduct)}>Agregar al carrito</button>
+                  <button
+                    className="btn-order"
+                    style={{ width: 'auto', padding: '12px 25px', opacity: (selectedProduct.options && !selectedOption) ? 0.5 : 1 }}
+                    disabled={selectedProduct.options && !selectedOption}
+                    onClick={() => addToCart(selectedProduct)}
+                  >
+                    {selectedProduct.options && !selectedOption ? 'Selecciona una opción' : 'Agregar al carrito'}
+                  </button>
                 </div>
               </div>
             </motion.div>
@@ -211,10 +245,10 @@ const App = () => {
                     {cart.map(item => (
                       <div key={item.id} style={{ display: 'flex', gap: '15px', marginBottom: '20px', background: 'rgba(255,255,255,0.03)', padding: '10px', borderRadius: '15px' }}>
                         <div style={{ width: '60px', height: '60px', borderRadius: '10px', overflow: 'hidden' }}>
-                          <img src={item.image ? `.${item.image}` : './logo.jpg'} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                          <img src={item.image ? `.${item.image}` : './logo.jpg'} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={e => e.target.src = './logo.jpg'} />
                         </div>
                         <div style={{ flex: 1 }}>
-                          <div style={{ fontWeight: 'bold', fontSize: '14px' }}>{item.name}</div>
+                          <div style={{ fontWeight: 'bold', fontSize: '14px' }}>{item.displayName || item.name}</div>
                           <div style={{ color: '#dc2626', fontWeight: 'bold', fontSize: '13px' }}>${((item.price || 0) * item.quantity).toLocaleString()}</div>
                           <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginTop: '10px' }}>
                             <button className="qty-btn" onClick={() => updateQuantity(item.id, -1)}><Minus size={14} /></button>
@@ -227,14 +261,45 @@ const App = () => {
                     ))}
                   </div>
                   <div style={{ borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: '20px' }}>
+
+                    {/* CUSTOMER FORM */}
+                    <div style={{ marginBottom: '20px' }}>
+                      <input
+                        type="text"
+                        placeholder="Tu Nombre"
+                        className="form-input"
+                        value={customerInfo.name}
+                        onChange={e => setCustomerInfo({ ...customerInfo, name: e.target.value })}
+                      />
+                      <input
+                        type="text"
+                        placeholder="Dirección de entrega"
+                        className="form-input"
+                        value={customerInfo.address}
+                        onChange={e => setCustomerInfo({ ...customerInfo, address: e.target.value })}
+                      />
+                      <select
+                        className="form-input"
+                        value={customerInfo.payment}
+                        onChange={e => setCustomerInfo({ ...customerInfo, payment: e.target.value })}
+                      >
+                        <option value="Transferencia">Transferencia</option>
+                        <option value="Efectivo">Efectivo</option>
+                        <option value="Débito/Crédito (Delivery)">Débito/Crédito (Delivery)</option>
+                      </select>
+                    </div>
+
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px', fontSize: '18px', fontWeight: 'bold' }}>
                       <span>Total</span>
                       <span>${total.toLocaleString()}</span>
                     </div>
-                    <button className="btn-order" style={{ width: '100%' }} onClick={finalizeOrder}>Finalizar por WhatsApp</button>
-                    <p style={{ fontSize: '11px', textAlign: 'center', marginTop: '15px', opacity: 0.5 }}>
-                      Serás redirigido a WhatsApp para coordinar el pago (Transferencia o Efectivo) y la entrega.
-                    </p>
+                    <button
+                      className="btn-order"
+                      style={{ width: '100%', opacity: (!customerInfo.name || !customerInfo.address) ? 0.5 : 1 }}
+                      onClick={finalizeOrder}
+                    >
+                      Finalizar por WhatsApp
+                    </button>
                   </div>
                 </>
               )}
@@ -243,9 +308,50 @@ const App = () => {
         )}
       </AnimatePresence>
 
-      <footer style={{ padding: '40px 0', textAlign: 'center', opacity: 0.3, fontSize: '12px' }}>
+      <footer style={{ padding: '80px 0 120px 0', textAlign: 'center', opacity: 0.3, fontSize: '12px' }}>
         © 2026 PAIN BURGER • TASTE THE FIRE
       </footer>
+
+      {/* FLOATING CART BUTTON */}
+      <AnimatePresence>
+        {cart.length > 0 && (
+          <motion.div
+            initial={{ y: 100, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 100, opacity: 0 }}
+            style={{
+              position: 'fixed',
+              bottom: '30px',
+              left: '50%',
+              transform: 'translateX(-50%)',
+              zIndex: 1000,
+              width: '90%',
+              maxWidth: '400px'
+            }}
+          >
+            <button
+              className="btn-order"
+              onClick={() => setShowCart(true)}
+              style={{
+                margin: 0,
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                boxShadow: '0 10px 30px rgba(220, 38, 38, 0.4)',
+                padding: '18px 25px'
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <div style={{ background: 'white', color: '#dc2626', width: '24px', height: '24px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 'bold' }}>
+                  {cart.reduce((s, i) => s + i.quantity, 0)}
+                </div>
+                <span>Ver pedido</span>
+              </div>
+              <span style={{ fontSize: '18px' }}>${total.toLocaleString()}</span>
+            </button>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

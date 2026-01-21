@@ -64,7 +64,16 @@
             "id": "lata-variedades",
             "name": "LATA VARIEDADES",
             "price": 1400,
-            "description": "Refrescantes latas de 350ml bien heladas. Coca-Cola, Sprite, Fanta y más."
+            "description": "Refrescantes latas de 350ml bien heladas.",
+            "options": [
+                "Coca-Cola",
+                "Coca-Cola Zero",
+                "Sprite",
+                "Sprite Zero",
+                "Fanta",
+                "Fanta Zero",
+                "Nordic"
+            ]
         },
         {
             "id": "red-bull",
@@ -76,13 +85,24 @@
             "id": "aguas-saborizadas",
             "name": "AGUAS SABORIZADAS",
             "price": 1300,
-            "description": "Aguas purificadas con un toque de sabor natural. Muy refrescantes y heladas."
+            "description": "Aguas purificadas con un toque de sabor natural. Muy refrescantes y heladas.",
+            "options": [
+                "Benedictino Pera",
+                "Benedictino Manzana",
+                "Benedictino Piña"
+            ]
         },
         {
             "id": "malteadas",
             "name": "MALTEADAS",
             "price": 3500,
-            "description": "Cremosidad absoluta. Variedades: Oreo, Manjar, Chocolate, Frutilla."
+            "description": "Cremosidad absoluta.",
+            "options": [
+                "Oreo",
+                "Manjar",
+                "Chocolate",
+                "Frutilla"
+            ]
         }
     ],
     "agregados": [
