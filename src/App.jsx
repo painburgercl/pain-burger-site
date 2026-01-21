@@ -285,7 +285,6 @@ const App = () => {
                       >
                         <option value="Transferencia">Transferencia</option>
                         <option value="Efectivo">Efectivo</option>
-                        <option value="Débito/Crédito (Delivery)">Débito/Crédito (Delivery)</option>
                       </select>
                     </div>
 
@@ -319,27 +318,19 @@ const App = () => {
             initial={{ y: 100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             exit={{ y: 100, opacity: 0 }}
+            className="floating-cart-container"
             style={{
               position: 'fixed',
               bottom: '30px',
-              left: '50%',
-              transform: 'translateX(-50%)',
+              right: '30px',
               zIndex: 1000,
-              width: '90%',
-              maxWidth: '400px'
+              width: 'auto',
+              minWidth: '220px'
             }}
           >
             <button
-              className="btn-order"
+              className="btn-order floating-cart-btn"
               onClick={() => setShowCart(true)}
-              style={{
-                margin: 0,
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                boxShadow: '0 10px 30px rgba(220, 38, 38, 0.4)',
-                padding: '18px 25px'
-              }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <div style={{ background: 'white', color: '#dc2626', width: '24px', height: '24px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 'bold' }}>
