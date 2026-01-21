@@ -79,8 +79,8 @@
             "description": "Aguas purificadas con un toque de sabor natural. Muy refrescantes y heladas."
         },
         {
-            "id": "maltedas",
-            "name": "MALTEDAS",
+            "id": "malteadas",
+            "name": "MALTEADAS",
             "price": 3500,
             "description": "Cremosidad absoluta. Variedades: Oreo, Manjar, Chocolate, Frutilla."
         }
