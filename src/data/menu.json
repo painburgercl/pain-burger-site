@@ -150,5 +150,21 @@
             "price": 890,
             "description": "Base yogurth griego, ciboulette, toque de mostaza, sason de pimienta y ajo."
         }
+    ],
+    "promos": [
+        {
+            "id": "la-dosis",
+            "name": "PROMO \"LA DOSIS\"",
+            "price": 14900,
+            "description": "2 Hamburguesas a elección + Porción de papas.",
+            "image": "/images/promo_dosis.png"
+        },
+        {
+            "id": "mosqueteros",
+            "name": "PROMO \"MOSQUETEROS\"",
+            "price": 24900,
+            "description": "3 Hamburguesas a elección + Porción de papas grande.",
+            "image": "/images/promo_mosqueteros.png"
+        }
     ]
 }

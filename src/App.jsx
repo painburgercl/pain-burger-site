@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { X, Flame, Droplet, UtensilsCrossed, Info, Instagram, MessageCircle, ShoppingBag, Plus, Minus, Trash2 } from 'lucide-react';
+import { X, Flame, Droplet, UtensilsCrossed, Info, Instagram, MessageCircle, ShoppingBag, Plus, Minus, Trash2, Tag } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import menuData from './data/menu.json';
 
 const categories = [
+  { id: 'promos', name: 'PROMOS', icon: Tag },
   { id: 'burgers', name: 'BURGER PAIN', icon: Flame },
   { id: 'papas', name: 'PAPAS FRITAS', icon: UtensilsCrossed },
   { id: 'salsas', name: 'SALSAS', icon: Droplet },
@@ -17,7 +18,7 @@ const getImgPath = (path) => {
 };
 
 const App = () => {
-  const [activeCategory, setActiveCategory] = useState('burgers');
+  const [activeCategory, setActiveCategory] = useState('promos');
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [selectedOption, setSelectedOption] = useState('');
   const [isOpen, setIsOpen] = useState(false);
