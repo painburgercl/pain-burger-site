@@ -36,7 +36,7 @@ const App = () => {
         <div className="container header-content">
           <div className="logo-container">
             <div className="logo-img">
-              <img src="/logo.jpg" alt="Logo" />
+              <img src="./logo.jpg" alt="Logo" />
             </div>
             <div>
               <h1 className="font-outfit brand-title">PAIN BURGER</h1>
@@ -92,7 +92,7 @@ const App = () => {
             {(menuData[activeCategory] || []).map(item => (
               <div key={item.id} className="product-card" onClick={() => setSelectedProduct(item)}>
                 <div className="product-thumb">
-                  <img src={item.image || '/logo.jpg'} alt={item.name} onError={e => e.target.src = '/logo.jpg'} />
+                  <img src={item.image ? `.${item.image}` : './logo.jpg'} alt={item.name} onError={e => e.target.src = './logo.jpg'} />
                 </div>
                 <div className="product-info">
                   <div className="product-name">{item.name}</div>
@@ -117,7 +117,7 @@ const App = () => {
               <button className="close-btn" onClick={() => setSelectedProduct(null)}><X /></button>
 
               <div className="modal-img">
-                <img src={selectedProduct.image || '/logo.jpg'} alt={selectedProduct.name} onError={e => e.target.src = '/logo.jpg'} />
+                <img src={selectedProduct.image ? `.${selectedProduct.image}` : './logo.jpg'} alt={selectedProduct.name} onError={e => e.target.src = './logo.jpg'} />
               </div>
 
               <div className="modal-info">
