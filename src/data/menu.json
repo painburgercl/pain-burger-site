@@ -89,22 +89,26 @@
         {
             "id": "papas-fritas",
             "name": "PAPAS FRITAS",
-            "price": 1500
+            "price": 1500,
+            "description": "Porción individual de papas fritas, crujientes y doradas."
         },
         {
             "id": "palta",
             "name": "PALTA",
-            "price": 790
+            "price": 790,
+            "description": "Porción extra de palta fresca molida del día."
         },
         {
             "id": "tocino",
             "name": "TOCINO",
-            "price": 890
+            "price": 890,
+            "description": "Láminas de tocino extra crocante para potenciar tu burger."
         },
         {
             "id": "aros-cebolla",
             "name": "AROS DE CEBOLLA",
-            "price": 990
+            "price": 990,
+            "description": "Anillos de cebolla empanizados, fritos al punto perfecto."
         }
     ],
     "salsas": [
