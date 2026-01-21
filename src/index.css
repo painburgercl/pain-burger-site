@@ -275,16 +275,25 @@ header {
 
 .close-btn {
   position: absolute;
-  top: 20px;
-  right: 20px;
-  z-index: 10;
-  background: rgba(255, 255, 255, 0.1);
-  border: none;
-  width: 40px;
-  height: 40px;
+  top: 15px;
+  right: 15px;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   color: white;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  transition: transform 0.2s;
+}
+
+.close-btn:active {
+  transform: scale(0.9);
 }
 
 .btn-order {
