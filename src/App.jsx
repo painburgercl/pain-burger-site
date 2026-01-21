@@ -18,6 +18,7 @@ const App = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [cart, setCart] = useState([]);
   const [showCart, setShowCart] = useState(false);
+  const [verificationData, setVerificationData] = useState(null);
   const [customerInfo, setCustomerInfo] = useState({
     name: '',
     address: '',
@@ -31,6 +32,19 @@ const App = () => {
     };
     check();
     const interval = setInterval(check, 60000);
+
+    // Order Verification Logic
+    const params = new URLSearchParams(window.location.search);
+    const token = params.get('v');
+    if (token) {
+      try {
+        const decoded = JSON.parse(atob(token));
+        setVerificationData(decoded);
+      } catch (e) {
+        console.error("Invalid token");
+      }
+    }
+
     return () => clearInterval(interval);
   }, []);
 
@@ -75,13 +89,25 @@ const App = () => {
       return;
     }
 
+    // Generate Verification Token
+    const orderObj = {
+      n: customerInfo.name,
+      a: customerInfo.address,
+      p: customerInfo.payment,
+      i: cart.map(p => ({ n: p.displayName || p.name, q: p.quantity })),
+      t: total
+    };
+    const token = btoa(JSON.stringify(orderObj));
+    const verifyUrl = `${window.location.origin}${window.location.pathname}?v=${token}`;
+
     const message = `🔥 *NUEVO PEDIDO - PAIN BURGER* 🔥\n\n` +
       `👤 *Cliente:* ${customerInfo.name}\n` +
       `📍 *Dirección:* ${customerInfo.address}\n` +
       `💵 *Pago:* ${customerInfo.payment}\n\n` +
       `📝 *Detalle:* \n` +
-      cart.map(p => `• ${p.quantity}x ${p.displayName || p.name} ($${((p.price || 0) * p.quantity).toLocaleString()})`).join('\n') +
-      `\n\n💰 *TOTAL: $${total.toLocaleString()}*`;
+      cart.map(p => `• ${p.quantity}x ${p.displayName || p.name}`).join('\n') +
+      `\n\n💰 *TOTAL: $${total.toLocaleString()}*\n\n` +
+      `✅ *Verificar pedido oficial aquí:* \n${verifyUrl}`;
 
     window.open(`https://api.whatsapp.com/send/?phone=56987536144&text=${encodeURIComponent(message)}`, "_blank");
   };
@@ -331,16 +357,61 @@ const App = () => {
             <button
               className="btn-order floating-cart-btn"
               onClick={() => setShowCart(true)}
+              style={{ gap: '20px' }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <div style={{ background: 'white', color: '#dc2626', width: '24px', height: '24px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 'bold' }}>
+                <div style={{ background: 'white', color: '#dc2626', width: '24px', height: '24px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 'bold' }}>
                   {cart.reduce((s, i) => s + i.quantity, 0)}
                 </div>
                 <span>Ver pedido</span>
               </div>
-              <span style={{ fontSize: '18px' }}>${total.toLocaleString()}</span>
+              <span style={{ fontSize: '18px', fontWeight: 800 }}>${total.toLocaleString()}</span>
             </button>
           </motion.div>
+        )}
+
+        {verificationData && (
+          <div className="modal-overlay" onClick={() => setVerificationData(null)}>
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              className="modal-content"
+              style={{ maxWidth: '400px', background: '#0a0a0a', border: '2px solid #4ade80' }}
+              onClick={e => e.stopPropagation()}
+            >
+              <div style={{ textAlign: 'center', marginBottom: '20px' }}>
+                <div style={{ background: '#4ade80', color: 'black', padding: '10px', borderRadius: '10px', fontWeight: 'bold', display: 'inline-block', marginBottom: '15px' }}>
+                  PEDIDO AUTÉNTICO 🛡️
+                </div>
+                <h2 className="font-outfit">Detalle Oficial</h2>
+              </div>
+
+              <div style={{ fontSize: '14px', lineHeight: '1.8' }}>
+                <p><strong>Cliente:</strong> {verificationData.n}</p>
+                <p><strong>Dirección:</strong> {verificationData.a}</p>
+                <p><strong>Pago:</strong> {verificationData.p}</p>
+                <div style={{ margin: '15px 0', padding: '15px', background: 'rgba(255,255,255,0.05)', borderRadius: '10px' }}>
+                  {verificationData.i.map((item, idx) => (
+                    <div key={idx}>• {item.q}x {item.n}</div>
+                  ))}
+                </div>
+                <div style={{ fontSize: '24px', fontWeight: 800, textAlign: 'center', color: '#4ade80' }}>
+                  Total: ${verificationData.t.toLocaleString()}
+                </div>
+              </div>
+
+              <button
+                className="btn-order"
+                onClick={() => {
+                  setVerificationData(null);
+                  window.history.replaceState({}, document.title, window.location.pathname);
+                }}
+                style={{ background: '#4ade80', color: 'black' }}
+              >
+                Entendido
+              </button>
+            </motion.div>
+          </div>
         )}
       </AnimatePresence>
     </div>
