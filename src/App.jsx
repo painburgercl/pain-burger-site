@@ -37,19 +37,6 @@ const App = () => {
     };
     check();
     const interval = setInterval(check, 60000);
-
-    // Order Verification Logic
-    const params = new URLSearchParams(window.location.search);
-    const token = params.get('v');
-    if (token) {
-      try {
-        const decoded = JSON.parse(atob(token));
-        setVerificationData(decoded);
-      } catch (e) {
-        console.error("Invalid token");
-      }
-    }
-
     return () => clearInterval(interval);
   }, []);
 
@@ -94,25 +81,13 @@ const App = () => {
       return;
     }
 
-    // Generate Verification Token
-    const orderObj = {
-      n: customerInfo.name,
-      a: customerInfo.address,
-      p: customerInfo.payment,
-      i: cart.map(p => ({ n: p.displayName || p.name, q: p.quantity })),
-      t: total
-    };
-    const token = btoa(JSON.stringify(orderObj));
-    const verifyUrl = `${window.location.origin}${window.location.pathname}?v=${token}`;
-
     const message = `🔥 *NUEVO PEDIDO - PAIN BURGER* 🔥\n\n` +
       `👤 *Cliente:* ${customerInfo.name}\n` +
       `📍 *Dirección:* ${customerInfo.address}\n` +
       `💵 *Pago:* ${customerInfo.payment}\n\n` +
       `📝 *Detalle:* \n` +
       cart.map(p => `• ${p.quantity}x ${p.displayName || p.name}`).join('\n') +
-      `\n\n💰 *TOTAL: $${total.toLocaleString()}*\n\n` +
-      `✅ *Verificar pedido oficial aquí:* \n${verifyUrl}`;
+      `\n\nEsperando confirmación de disponibilidad y monto final para transferir.`;
 
     window.open(`https://api.whatsapp.com/send/?phone=56987536144&text=${encodeURIComponent(message)}`, "_blank");
   };
