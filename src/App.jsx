@@ -24,11 +24,11 @@ const App = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [cart, setCart] = useState([]);
   const [showCart, setShowCart] = useState(false);
-  const [verificationData, setVerificationData] = useState(null);
   const [customerInfo, setCustomerInfo] = useState({
     name: '',
     address: '',
-    payment: 'Transferencia'
+    payment: 'Transferencia',
+    notes: ''
   });
 
   useEffect(() => {
@@ -85,8 +85,9 @@ const App = () => {
     const message = `🔥 *NUEVO PEDIDO - PAIN BURGER* 🔥\n\n` +
       `👤 *Cliente:* ${customerInfo.name}\n` +
       `📍 *Dirección:* ${customerInfo.address}\n` +
-      `💵 *Pago:* ${customerInfo.payment}\n\n` +
-      `📝 *Detalle:* \n` +
+      `💵 *Pago:* ${customerInfo.payment}\n` +
+      (customerInfo.notes ? `📝 *Notas:* ${customerInfo.notes}\n` : '') +
+      `\n🛒 *Detalle:* \n` +
       cart.map(p => `• ${p.quantity}x ${p.displayName || p.name}`).join('\n') +
       `\n\nEsperando confirmación de disponibilidad y monto final para transferir.`;
 
@@ -293,6 +294,13 @@ const App = () => {
                         <option value="Transferencia">Transferencia</option>
                         <option value="Efectivo">Efectivo</option>
                       </select>
+                      <textarea
+                        placeholder="Notas adicionales (ej: burgers de promo, quitar cebolla, etc.)"
+                        className="form-input"
+                        style={{ height: '80px', resize: 'none' }}
+                        value={customerInfo.notes}
+                        onChange={e => setCustomerInfo({ ...customerInfo, notes: e.target.value })}
+                      />
                     </div>
 
                     <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '20px', fontSize: '18px', fontWeight: 'bold' }}>
@@ -349,50 +357,6 @@ const App = () => {
               <span style={{ fontSize: '18px', fontWeight: 800, marginLeft: '10px' }}>${total.toLocaleString()}</span>
             </button>
           </motion.div>
-        )}
-
-        {verificationData && (
-          <div className="modal-overlay" onClick={() => setVerificationData(null)}>
-            <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              className="modal-content"
-              style={{ maxWidth: '400px', background: '#0a0a0a', border: '2px solid #4ade80' }}
-              onClick={e => e.stopPropagation()}
-            >
-              <div style={{ textAlign: 'center', marginBottom: '20px' }}>
-                <div style={{ background: '#4ade80', color: 'black', padding: '10px', borderRadius: '10px', fontWeight: 'bold', display: 'inline-block', marginBottom: '15px' }}>
-                  PEDIDO AUTÉNTICO 🛡️
-                </div>
-                <h2 className="font-outfit">Detalle Oficial</h2>
-              </div>
-
-              <div style={{ fontSize: '14px', lineHeight: '1.8' }}>
-                <p><strong>Cliente:</strong> {verificationData.n}</p>
-                <p><strong>Dirección:</strong> {verificationData.a}</p>
-                <p><strong>Pago:</strong> {verificationData.p}</p>
-                <div style={{ margin: '15px 0', padding: '15px', background: 'rgba(255,255,255,0.05)', borderRadius: '10px' }}>
-                  {verificationData.i.map((item, idx) => (
-                    <div key={idx}>• {item.q}x {item.n}</div>
-                  ))}
-                </div>
-                <div style={{ fontSize: '24px', fontWeight: 800, textAlign: 'center', color: '#4ade80' }}>
-                  Total: ${verificationData.t.toLocaleString()}
-                </div>
-              </div>
-
-              <button
-                className="btn-order"
-                onClick={() => {
-                  setVerificationData(null);
-                  window.history.replaceState({}, document.title, window.location.pathname);
-                }}
-                style={{ background: '#4ade80', color: 'black' }}
-              >
-                Entendido
-              </button>
-            </motion.div>
-          </div>
         )}
       </AnimatePresence>
     </div>
