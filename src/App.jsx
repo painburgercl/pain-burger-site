@@ -11,6 +11,11 @@ const categories = [
   { id: 'agregados', name: 'AGREGADOS', icon: Info },
 ];
 
+const getImgPath = (path) => {
+  if (!path) return '/pain-burger-site/logo.jpg';
+  return `/pain-burger-site${path}`;
+};
+
 const App = () => {
   const [activeCategory, setActiveCategory] = useState('burgers');
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -118,7 +123,7 @@ const App = () => {
         <div className="container header-content">
           <div className="logo-container">
             <div className="logo-img">
-              <img src="./logo.jpg" alt="Logo" />
+              <img src={getImgPath('/logo.jpg')} alt="Logo" />
             </div>
             <div>
               <h1 className="font-outfit brand-title">PAIN BURGER</h1>
@@ -169,7 +174,7 @@ const App = () => {
             {(menuData[activeCategory] || []).map(item => (
               <div key={item.id} className="product-card" onClick={() => setSelectedProduct(item)}>
                 <div className="product-thumb">
-                  <img src={item.image ? `.${item.image}` : './logo.jpg'} alt={item.name} onError={e => e.target.src = './logo.jpg'} />
+                  <img src={getImgPath(item.image)} alt={item.name} onError={e => e.target.src = getImgPath()} />
                 </div>
                 <div className="product-info">
                   <div className="product-name">{item.name}</div>
@@ -194,7 +199,7 @@ const App = () => {
               <button className="close-btn" onClick={() => setSelectedProduct(null)}><X /></button>
 
               <div className="modal-img">
-                <img src={selectedProduct.image ? `.${selectedProduct.image}` : './logo.jpg'} alt={selectedProduct.name} onError={e => e.target.src = './logo.jpg'} />
+                <img src={getImgPath(selectedProduct.image)} alt={selectedProduct.name} onError={e => e.target.src = getImgPath()} />
               </div>
 
               <div className="modal-info">
@@ -271,7 +276,7 @@ const App = () => {
                     {cart.map(item => (
                       <div key={item.id} style={{ display: 'flex', gap: '15px', marginBottom: '20px', background: 'rgba(255,255,255,0.03)', padding: '10px', borderRadius: '15px' }}>
                         <div style={{ width: '60px', height: '60px', borderRadius: '10px', overflow: 'hidden' }}>
-                          <img src={item.image ? `.${item.image}` : './logo.jpg'} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={e => e.target.src = './logo.jpg'} />
+                          <img src={getImgPath(item.image)} style={{ width: '100%', height: '100%', objectFit: 'cover' }} onError={e => e.target.src = getImgPath()} />
                         </div>
                         <div style={{ flex: 1 }}>
                           <div style={{ fontWeight: 'bold', fontSize: '14px' }}>{item.displayName || item.name}</div>
@@ -357,15 +362,15 @@ const App = () => {
             <button
               className="btn-order floating-cart-btn"
               onClick={() => setShowCart(true)}
-              style={{ gap: '20px' }}
+              style={{ padding: '15px 20px' }}
             >
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <div style={{ background: 'white', color: '#dc2626', width: '24px', height: '24px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '12px', fontWeight: 'bold' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <div style={{ background: 'white', color: '#dc2626', width: '22px', height: '22px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '11px', fontWeight: 'bold', flexShrink: 0 }}>
                   {cart.reduce((s, i) => s + i.quantity, 0)}
                 </div>
-                <span>Ver pedido</span>
+                <span style={{ fontSize: '15px', whiteSpace: 'nowrap' }}>Ver pedido</span>
               </div>
-              <span style={{ fontSize: '18px', fontWeight: 800 }}>${total.toLocaleString()}</span>
+              <span style={{ fontSize: '18px', fontWeight: 800, marginLeft: '10px' }}>${total.toLocaleString()}</span>
             </button>
           </motion.div>
         )}
