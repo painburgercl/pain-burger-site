@@ -90,7 +90,7 @@ const App = () => {
       cart.map(p => `• ${p.quantity}x ${p.displayName || p.name}`).join('\n') +
       `\n\nEsperando confirmación de disponibilidad y monto final para transferir.`;
 
-    window.open(`https://api.whatsapp.com/send/?phone=56987536144&text=${encodeURIComponent(message)}`, "_blank");
+    window.open(`https://api.whatsapp.com/send/?phone=56929532373&text=${encodeURIComponent(message)}`, "_blank");
   };
 
   return (
@@ -108,7 +108,7 @@ const App = () => {
           </div>
           <div style={{ display: 'flex', gap: '15px', alignItems: 'center' }}>
             <button
-              onClick={() => window.open(`https://api.whatsapp.com/send/?phone=56987536144&text=${encodeURIComponent("Hola PainBurger, quiero hacer un pedido")}`, "_blank")}
+              onClick={() => window.open(`https://api.whatsapp.com/send/?phone=56929532373&text=${encodeURIComponent("Hola PainBurger, quiero hacer un pedido")}`, "_blank")}
               style={{ background: 'none', border: 'none', color: '#25D366', cursor: 'pointer', display: 'flex', alignItems: 'center' }}
               title="Pedir por WhatsApp"
             >
