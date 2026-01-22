@@ -65,6 +65,7 @@
             "name": "LATA VARIEDADES",
             "price": 1400,
             "description": "Refrescantes latas de 350ml bien heladas.",
+            "image": "/images/lata_variedades.jpg",
             "options": [
                 "Coca-Cola",
                 "Coca-Cola Zero",
@@ -79,7 +80,8 @@
             "id": "red-bull",
             "name": "RED BULL",
             "price": 2000,
-            "description": "Bebida energética para recargar fuerzas. Servida muy fría."
+            "description": "Bebida energética para recargar fuerzas. Servida muy fría.",
+            "image": "/images/red-bull.jpg"
         },
         {
             "id": "aguas-saborizadas",
