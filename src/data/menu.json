@@ -99,6 +99,7 @@
             "name": "MALTEADAS",
             "price": 3500,
             "description": "Cremosidad absoluta.",
+            "image": "/images/malteadas.jpg",
             "options": [
                 "Oreo",
                 "Manjar",
