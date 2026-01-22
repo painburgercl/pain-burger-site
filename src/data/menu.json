@@ -19,7 +19,7 @@
             "name": "GOODNES",
             "price": 6900,
             "description": "Pan brioche, queso cheddar, salsa de la casa, salsa bbq, aros de cebolla, cebolla caramelizada.",
-            "image": "/images/goodnes.png"
+            "image": "/images/goodnes.jpg"
         },
         {
             "id": "picantosa",
