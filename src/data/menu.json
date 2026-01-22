@@ -119,7 +119,8 @@
             "id": "palta",
             "name": "PALTA",
             "price": 790,
-            "description": "Porción extra de palta fresca molida del día."
+            "description": "Porción extra de palta fresca molida del día.",
+            "image": "/images/palta.jpg"
         },
         {
             "id": "tocino",
