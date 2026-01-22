@@ -157,14 +157,14 @@
             "name": "PROMO \"LA DOSIS\"",
             "price": 14900,
             "description": "2 Hamburguesas a elección + Porción de papas.",
-            "image": "/images/promo_dosis.png"
+            "image": "/images/promo_dosis.jpg"
         },
         {
             "id": "mosqueteros",
             "name": "PROMO \"MOSQUETEROS\"",
             "price": 24900,
             "description": "3 Hamburguesas a elección + Porción de papas grande.",
-            "image": "/images/promo_mosqueteros.png"
+            "image": "/images/promo_mosqueteros.jpg"
         }
     ]
 }
